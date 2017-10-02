@@ -1,12 +1,16 @@
 {
-    "name": "UserApi",
+    "name": "ProductApi",
     "version": "1.0.0",
-    "description": "REST API - Users",
+    "description": "REST API - Products",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
     "dependencies": {
         "restify": "4.1.1",
         "save": "2.3.0"
     },
-    "author": "Robert",
+    "author": "Robert Argume",
     "private": true,
-    "main": "index.js"
+    "license": "MIT"
 }
