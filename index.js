@@ -15,6 +15,25 @@ var HOST = '127.0.0.1';
 var getRequestCounter = 0;
 var postRequestCounter = 0;
 
+var inBoundSign = ">>";
+var outBoundSign = "<<";
+
+var sendGetTitle = 'sendGet';
+var sendPostTitle = 'sendPost'; 
+var sendDeleteTitle = 'sendDelete';
+
+var receivedRequestMessage = 'received request';
+var sendingResponseMessage = 'sending response';
+
+var infoType = 'INFO';
+var errorType = 'ERROR';
+
+var productMissingError = 'product name must be supplied';
+var priceMissingError = 'price must be supplied';
+
+// Module with help functions for showing messages in the console
+var utils = require('./utils.js')();
+
 var restify = require('restify')
 
   // Get a persistence engine for the users
@@ -40,7 +59,7 @@ server
 
 // Get all products in the system
 server.get('/sendGet', function (req, res, next) {
-  console.log('>> sendGet: received request');
+  utils.log(inBoundSign, sendGetTitle, infoType, receivedRequestMessage);
   getRequestCounter++;
 
   // Find every entity within the given collection
@@ -48,40 +67,41 @@ server.get('/sendGet', function (req, res, next) {
     
     // If there are any errors, pass them to next in the correct format
     if (error) {
-      console.log('<< sendGet ERROR: ' + error);
-      showRequestCounters();
+      utils.log(outBoundSign, sendGetTitle, errorType, error);
+      utils.showRequestCounters(getRequestCounter, postRequestCounter);
       return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
     }
 
     // Return all of the users in the system
     res.send(products);
 
-    console.log('<< sendGet: sending response');
+    //console.log('<< sendGet: sending response');
+    utils.log(outBoundSign, sendGetTitle, infoType, sendingResponseMessage);
   })
 
   // Show counters for GET and POST request
-  showRequestCounters();
+  utils.showRequestCounters(getRequestCounter, postRequestCounter);
 })
 
 // Create a new product
 server.post('/sendPost', function (req, res, next) {
-  console.log('>> sendPost: received request');
+  utils.log(inBoundSign, sendPostTitle, infoType, receivedRequestMessage);
   postRequestCounter++;
 
   // Make sure product name is defined
   if (req.params.product === undefined ) {
-    console.log('<< sendPost ERROR: ' + 'product name must be supplied');
-    showRequestCounters();
+    utils.log(outBoundSign, sendPostTitle, errorType, productMissingError);
+    utils.showRequestCounters(getRequestCounter, postRequestCounter);
 
     // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('product name must be supplied'));
+    return next(new restify.InvalidArgumentError(productMissingError));
   } // Make sure price is defined
   if (req.params.price === undefined ) {
-    console.log('<< sendPost ERROR: ' + 'price must be supplied');
-    showRequestCounters();
+    utils.log(outBoundSign, sendPostTitle, errorType, priceMissingError);
+    utils.showRequestCounters(getRequestCounter, postRequestCounter);
 
     // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('price must be supplied'));
+    return next(new restify.InvalidArgumentError(priceMissingError));
   }
   var newProduct = {
     _id: req.params.id,
@@ -94,46 +114,43 @@ server.post('/sendPost', function (req, res, next) {
 
     // If there are any errors, pass them to next in the correct format
     if (error){
-      console.log('<< sendPost ERROR: ' + error);
-      showRequestCounters();
+      utils.log(outBoundSign, sendPostTitle, errorType, error);
+      utils.showRequestCounters(getRequestCounter, postRequestCounter);
       return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
     } 
 
     // Send the user if no issues
     res.send(201, product);
 
-    console.log('<< sendPost: sending response');
+    //console.log('<< sendPost: sending response');
+    utils.log(outBoundSign, sendPostTitle, infoType, sendingResponseMessage);
   })
 
   // Show counters for GET and POST request
-  showRequestCounters();
+  utils.showRequestCounters(getRequestCounter, postRequestCounter);
 })
 
 // Delete user with the given id
 server.del('/sendDelete', function (req, res, next) {
-  console.log('>> sendDelete: received request');
+  utils.log(inBoundSign, sendDeleteTitle, infoType, receivedRequestMessage);
 
   // Delete the user with the persistence engine
   productSave.deleteMany({}, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
     if (error) {
-      console.log('<< sendPost ERROR: ' + error);
+      utils.log(outBoundSign, sendDeleteTitle, errorType, error);
       return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
     }
     // Send a 200 OK response
     res.send();
 
-    console.log('<< sendDelete: sending response');
+    utils.log(outBoundSign, sendDeleteTitle, infoType, sendingResponseMessage);
   })
   
   // Show counters for GET and POST request
-  showRequestCounters();
+  utils.showRequestCounters(getRequestCounter, postRequestCounter);
 })
 
-// This function shows counter for processed GET and POST requests
-function showRequestCounters() {
-  console.log('Processed Request Count --> ' + 'sendGet:' + getRequestCounter + '  sendPost:' +postRequestCounter);
-}
 
 
