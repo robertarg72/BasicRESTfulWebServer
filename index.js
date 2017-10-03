@@ -30,12 +30,14 @@ var restify = require('restify')
   // Create the restify server
   , server = restify.createServer({ name: SERVER_NAME})
 
-  server.listen(PORT, HOST, function () {
-  console.log('Server %s listening at %s', server.name, server.url)
-  console.log('End Points:')
-  console.log('  ' + server.url +'/sendGet' + '   method: GET')
-  console.log('  ' + server.url +'/sendPost'+ '   method: POST')  
-  console.log('  ' + server.url +'/sendDelete' + ' method: DELETE')
+server.listen(PORT, HOST, function () {
+    // Modern ES6: template literals to insert variable values in a string 
+    utils.logWithColor(`Server ${server.name} listening at ${server.url}`, utils.BLUE);
+    console.log('End Points:');
+    console.log('  ' + server.url +'/sendGet' + '    method: GET');
+    console.log('  ' + server.url +'/sendPost'+ '   method: POST');
+    console.log('  ' + server.url +'/sendDelete' + ' method: DELETE');
+    utils.logWithColor( '  Waiting for requests ... ', utils.GREEN);
 })
 
 server
