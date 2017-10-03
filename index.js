@@ -4,7 +4,6 @@ var HOST = '127.0.0.1';
 
 
 var restify = require('restify')
-var restify = require('restify')
 
   // Get a persistence engine for the users
   , productSave = require('save')('products')
@@ -29,17 +28,21 @@ server
 
 // Get all products in the system
 server.get('/sendGet', function (req, res, next) {
+  console.log('>> sendGet: received request');
 
   // Find every entity within the given collection
   productSave.find({}, function (error, products) {
-
+    
     // Return all of the users in the system
     res.send(products)
+
+    console.log('<< sendGet: sending response');
   })
 })
 
 // Create a new product
 server.post('/sendPost', function (req, res, next) {
+  console.log('>> sendPost: received request');
 
   // Make sure product name is defined
   if (req.params.product === undefined ) {
@@ -64,11 +67,15 @@ server.post('/sendPost', function (req, res, next) {
 
     // Send the user if no issues
     res.send(201, product)
+
+    console.log('<< sendPost: sending response');
   })
 })
 
 // Delete user with the given id
 server.del('/sendDelete', function (req, res, next) {
+  console.log('>> sendDelete: received request');
+
   // Delete the user with the persistence engine
   productSave.deleteMany({}, function (error, product) {
 
@@ -77,6 +84,8 @@ server.del('/sendDelete', function (req, res, next) {
 
     // Send a 200 OK response
     res.send()
+
+    console.log('<< sendDelete: sending response');
   })
 })
 
