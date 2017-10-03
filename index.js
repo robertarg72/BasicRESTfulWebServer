@@ -2,6 +2,8 @@ var SERVER_NAME = 'product-api'
 var PORT = 8000;
 var HOST = '127.0.0.1';
 
+// Curl example:
+// curl -d '{"product":"aa", "price":"22"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8000/sendPost
 
 var restify = require('restify')
 
@@ -46,10 +48,14 @@ server.post('/sendPost', function (req, res, next) {
 
   // Make sure product name is defined
   if (req.params.product === undefined ) {
+    console.log('<< sendPost ERROR: ' + 'product name must be supplied');
+
     // If there are any errors, pass them to next in the correct format
     return next(new restify.InvalidArgumentError('product name must be supplied'))
   } // Make sure price is defined
   if (req.params.price === undefined ) {
+    console.log('<< sendPost ERROR: ' + 'price must be supplied');
+
     // If there are any errors, pass them to next in the correct format
     return next(new restify.InvalidArgumentError('price must be supplied'))
   }
@@ -63,7 +69,10 @@ server.post('/sendPost', function (req, res, next) {
   productSave.create( newProduct, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
-    if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+    if (error){
+      console.log('<< sendPost ERROR: ' + error);
+      return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+    } 
 
     // Send the user if no issues
     res.send(201, product)
@@ -80,8 +89,10 @@ server.del('/sendDelete', function (req, res, next) {
   productSave.deleteMany({}, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
-    if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
-
+    if (error) {
+      console.log('<< sendPost ERROR: ' + error);
+      return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+    }
     // Send a 200 OK response
     res.send()
 
