@@ -1,0 +1,24 @@
+Title: RESTful Product API - Robert Argume
+Note over User: GET Request
+User->Web API: Http Request
+Note right of User:  GET {}\n/sendGet
+Web API->In Memory DB: Find({query:All})
+In Memory DB->Web API: Product List
+Web API->User: Http Response
+Note right of User:  {Status:200,\n[{<product1>},\n{<product2>}...}]}
+
+Note over User: POST Request
+User->Web API: Http Request
+Note right of User:  POST {}\n/sendPost
+Web API->In Memory DB: Create
+In Memory DB->Web API: Created Product
+Web API->User: Http Response
+Note right of User:  {Status: 201,\n {< created product>}}
+
+Note over User: DEL Request
+User->Web API: Http Request
+Note right of User:  DEL {}\n/sendDelete
+Web API->In Memory DB: DeleteMany({query:All})
+In Memory DB->Web API: Void
+Web API->User: Http Response
+Note right of User:  {Status: 200}
