@@ -126,6 +126,9 @@ server.del('/sendDelete', function (req, res, next) {
 
     console.log('<< sendDelete: sending response');
   })
+  
+  // Show counters for GET and POST request
+  showRequestCounters();
 })
 
 // This function shows counter for processed GET and POST requests
