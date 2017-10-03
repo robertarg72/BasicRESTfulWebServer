@@ -1,9 +1,17 @@
+/*
+ * index.js
+ * Project: Assignment 1
+ * Name: Robert Argume
+ * StudentID: 300949529
+ * Date: Oct 03, 2017
+ * Description: Simple RESTful web server for Enterprise Technologies Assignment 1
+ * Curl example:
+ *   - curl -d '{"product":"aa", "price":"22"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8000/sendPost
+ */
+
 var SERVER_NAME = 'product-api'
 var PORT = 8000;
 var HOST = '127.0.0.1';
-
-// Curl example:
-// curl -d '{"product":"aa", "price":"22"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8000/sendPost
 
 var restify = require('restify')
 
