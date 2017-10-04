@@ -34,9 +34,9 @@ server.listen(PORT, HOST, function () {
     // Modern ES6: template literals to insert variable values in a string 
     utils.logWithColor(`Server ${server.name} listening at ${server.url}`, utils.BLUE);
     console.log('End Points:');
-    console.log('  ' + server.url +'/sendGet' + '    method: GET');
-    console.log('  ' + server.url +'/sendPost'+ '   method: POST');
-    console.log('  ' + server.url +'/sendDelete' + ' method: DELETE');
+    console.log('  ' + server.url +'/product' + '   method: GET');
+    console.log('  ' + server.url +'/product' + '   method: POST');
+    console.log('  ' + server.url +'/product' + '   method: DELETE');
     utils.logWithColor( '  Waiting for requests ... ', utils.GREEN);
 })
 
@@ -48,7 +48,7 @@ server
   .use(restify.bodyParser())
 
 // Get all products in the system
-server.get('/sendGet', function (req, res, next) {
+server.get('/product', function (req, res, next) {
   utils.log(msg.inBoundSign, msg.sendGetTitle, msg.infoType, msg.receivedRequestMessage);
   getRequestCounter++;
 
@@ -74,7 +74,7 @@ server.get('/sendGet', function (req, res, next) {
 })
 
 // Create a new product
-server.post('/sendPost', function (req, res, next) {
+server.post('/product', function (req, res, next) {
   utils.log(msg.inBoundSign, msg.sendPostTitle, msg.infoType, msg.receivedRequestMessage);
   postRequestCounter++;
 
@@ -121,7 +121,7 @@ server.post('/sendPost', function (req, res, next) {
 })
 
 // Delete user with the given id
-server.del('/sendDelete', function (req, res, next) {
+server.del('/product', function (req, res, next) {
   utils.log(msg.inBoundSign, msg.sendDeleteTitle, msg.infoType, msg.receivedRequestMessage);
 
   // Delete the user with the persistence engine
